@@ -1,0 +1,368 @@
+{% comment %} <style>
+    .element {
+        display: flex;
+        flex-direction: column;
+    }
+  </style> {% endcomment %}
+  <div class="slick-slider page-width">
+    {% for block in section.blocks %}
+      <div class="element element-1  add-cart-msg">
+        <a href="{{ block.settings.product.url }}">
+          <img
+            id="productImg"
+            class="main-outfit-img featuredImg"
+            style="background-color:{{ block.settings.bgColor }};"
+            src="{{ block.settings.product.featured_image | product_img_url: 'medium' }}"
+            alt="ProductImage"
+            height=" "
+            width=" "
+            loading="eager"
+          >
+        </a>
+        <div class="aboutProduct" style="background-color:#fff;">
+          <div style="color: rgb(196, 22, 22);" id="title" class="description" >
+            {{ block.settings.product.title }}
+          </div>
+  
+          <div style="color: #000;">
+            {{ block.settings.product.price | money_without_trailing_zeros -}}
+            &nbsp;
+            <q style="text-decoration:line-through; color:#878a99; font-size:14px;">
+              {{ block.settings.product.compare_at_price_max | money_without_trailing_zeros }}
+            </q>
+          </div>
+          <button
+            onClick="myFunction({{ block.settings.product.selected_or_first_available_variant.id }}, 1 )"
+            class="cartbtn ad_to_cart"
+            id="addtocart"
+            type="submit"
+          >
+              Add to cart
+          </button>
+          <button class="cartbtn ad_to_carts" style="display:none;">fsgasg</button>
+          <br> 
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% schema %}
+  {
+    "name": "Slide-collection",
+    "settings": [],
+  "blocks":[
+    {
+      "name":"product",
+      "type":"slide",
+      "settings":[
+        {
+          "type":"product",
+          "id":"product",
+          "label":"product"
+        } ,
+  
+        {
+          "type":"color",
+          "id":"bgColor",
+          "label":"Product Background color"
+        }
+      ]
+    }
+  ],
+  
+    "presets":[
+      {
+        "name":"Slide-collection"
+      }
+    ]
+  }
+  {% endschema %}
+  
+  {% stylesheet %}
+  {% endstylesheet %}
+  
+  {% javascript %}
+  {% endjavascript %}
+  {% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/jquery.slick/1.4.1/slick.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> {% endcomment %}
+  
+  
+ 
+  
+  <script>
+       function myFunction(product_id, qty) {
+
+
+         
+      var ids = product_id;
+      var qtys = qty;
+      var data = {
+        "id": ids,
+        "quantity": qtys
+      };
+      $.ajax({
+        type: 'POST',
+        url: '/cart/add.js',
+        data: data,
+        dataType: 'json',
+        success: function(response) {
+      // window.location.href = '/cart';
+           $('.ad_to_carts').click();
+          var productTitle = response.product_title;
+          var productImage = response.image;
+          var productURL = response.url;
+          var cartNotification = $('#cart-notification-product');
+          cartNotification.html(
+            '<a href="' + productURL + '">' +
+            '<img src="' + productImage + '" alt="' + productTitle + '" width="70" height="106">' +
+            '<h3>' + productTitle + '</h3>' +
+            '</a>'
+          ); 
+           const cartNotification1 = document.querySelector('.cart-notification');
+    cartNotification1.style.transform = 'translateY(0%)';
+    cartNotification1.style.visibility = 'visible';
+          // Update "View Cart" button label
+          var viewCartButton = $('#cart-notification-button');
+          var currentQuantity = parseInt(viewCartButton.text().split(' ')[0]);
+          currentQuantity = isNaN(currentQuantity) ? 0 : currentQuantity; // Set currentQuantity to 0 if NaN
+          var updatedQuantity = currentQuantity + 1;
+          viewCartButton.text(updatedQuantity + ' ' + '{{ 'general.cart.view_empty_cart' | t }}');
+         
+        }
+      });
+         // alert('dfdfgkfkjgbjfjbfg');
+    }
+
+  </script>
+  <script>
+     $(document).ready(function () {
+    $(".ad_to_carts").click(function () {
+     
+
+                // Perform an AJAX request to reload the content
+                $.ajax({
+                        url: window.location.href, // Reload the current page
+                        type: 'GET',
+                        success: function (response) {
+                          
+                                // Replace the current page's content with the updated content
+                                $('body').html(response);
+                         $('#CaartDrawer').addClass('active');
+                                // alert('Page Reloaded via AJAX');
+                        },
+                        error: function () {
+                                // alert('Failed to reload the page via AJAX');
+                        }
+                });
+        });
+});
+
+  </script>
+  <script>
+    document.addEventListener('click', function(event) {
+      var cartNotification = document.getElementById('cart-notification');
+      var isClickInside = cartNotification.contains(event.target)
+      if (!isClickInside ) {
+        // Click is outside the cart-notification div
+        cartNotification.style.transform = '';
+        cartNotification.style.visibility = '';
+      }
+     else{
+        cartNotification.style.transform = '';
+        cartNotification.style.visibility = '';
+     }
+    });
+
+    
+  </script>
+  
+
+
+
+
+
+
+
+
+  ----------NEW------------
+
+
+  <div class="slick-slider page-width">
+    {% for block in section.blocks %}
+      <div class="element element-1  add-cart-msg">
+        <a href="{{ block.settings.product.url }}">
+          <img
+            id="productImg"
+            class="main-outfit-img featuredImg"
+            style="background-color:{{ block.settings.bgColor }};"
+            src="{{ block.settings.product.featured_image | product_img_url: 'medium' }}"
+            alt="ProductImage"
+            height=" "
+            width=" "
+            loading="eager"
+          >
+        </a>
+        <div class="aboutProduct" style="background-color:#fff;">
+          <div style="color: rgb(196, 22, 22);" id="title" class="description" >
+            {{ block.settings.product.title }}
+          </div>
+  
+          <div style="color: #000;">
+            {{ block.settings.product.price | money_without_trailing_zeros -}}
+            &nbsp;
+            <q style="text-decoration:line-through; color:#878a99; font-size:14px;">
+              {{ block.settings.product.compare_at_price_max | money_without_trailing_zeros }}
+            </q>
+          </div>
+          <button
+            onClick="myFunction({{ block.settings.product.selected_or_first_available_variant.id }}, 1 )"
+            class="cartbtn ad_to_cart"
+            id="addtocart"
+            type="submit"
+          >
+              Add to cart
+          </button>
+          <button class="cartbtn ad_to_carts" style="display:none;">fsgasg</button>
+          <br> 
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% schema %}
+  {
+    "name": "Slide-collection",
+    "settings": [],
+  "blocks":[
+    {
+      "name":"product",
+      "type":"slide",
+      "settings":[
+        {
+          "type":"product",
+          "id":"product",
+          "label":"product"
+        } ,
+  
+        {
+          "type":"color",
+          "id":"bgColor",
+          "label":"Product Background color"
+        }
+      ]
+    }
+  ],
+  
+    "presets":[
+      {
+        "name":"Slide-collection"
+      }
+    ]
+  }
+  {% endschema %}
+  
+  {% stylesheet %}
+  {% endstylesheet %}
+  
+  {% javascript %}
+  {% endjavascript %}
+  {% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/jquery.slick/1.4.1/slick.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> {% endcomment %}
+  
+  
+ <!-- <style>
+   .cart-notification {
+  /* Your default styles here */
+  display: none; /* Start with the drawer hidden */
+}
+
+.cart-notification.open {
+  display: block; /* Make the drawer visible when the 'open' class is added */
+}
+
+ </style> -->
+  
+ <script>
+       function myFunction(product_id, qty) {
+
+
+         
+      var ids = product_id;
+      var qtys = qty;
+      var data = {
+        "id": ids,
+        "quantity": qtys
+      };
+      $.ajax({
+        type: 'POST',
+        url: '/cart/add.js',
+        data: data,
+        dataType: 'json',
+        success: function(response) {
+      // window.location.href = '/cart';
+           $('.ad_to_carts').click();
+          var productTitle = response.product_title;
+          var productImage = response.image;
+          var productURL = response.url;
+          var cartNotification = $('#cart-notification-product');
+          
+           const cartNotification1 = document.querySelector('.cart-notification');
+    cartNotification1.style.transform = 'translateY(0%)';
+    cartNotification1.style.visibility = 'visible';
+          // Update "View Cart" button label
+          var viewCartButton = $('#cart-notification-button');
+          var currentQuantity = parseInt(viewCartButton.text().split(' ')[0]);
+          currentQuantity = isNaN(currentQuantity) ? 0 : currentQuantity; // Set currentQuantity to 0 if NaN
+          var updatedQuantity = currentQuantity + 1;
+          viewCartButton.text(updatedQuantity + ' ' + '{{ 'general.cart.view_empty_cart' | t }}');
+         
+        }
+      });
+          // $('#CaartDrawer').addClass('active');
+    }
+
+  </script>
+
+
+
+
+  
+  <script>
+      $(document).ready(function () {
+     $(".ad_to_carts").click(function () {  
+                 // Perform an AJAX request to reload the content
+                 $.ajax({
+                         url: window.location.href, // Reload the current page
+                         type: 'GET',
+                         success: function (response) {                        
+                                 // Replace the current page's content with the updated content
+                                 $('body').html(response);
+                           $('#CaartDrawer').addClass('active');
+                                 // alert('Page Reloaded via AJAX');
+                         },
+                         error: function () {
+                                 // alert('Failed to reload the page via AJAX');
+                         }
+                 });
+         });
+ });
+
+//   </script>
+  <script>
+    document.addEventListener('click', function(event) {
+      var cartNotification = document.getElementById('cart-notification');
+      var isClickInside = cartNotification.contains(event.target)
+      if (!isClickInside ) {
+        // Click is outside the cart-notification div
+        cartNotification.style.transform = ''; 
+        cartNotification.style.visibility = '';
+      }
+     else{
+        cartNotification.style.transform = '';
+        cartNotification.style.visibility = '';
+     }
+    });
+
+    
+  </script>
+  
