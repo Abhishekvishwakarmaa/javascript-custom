@@ -1,0 +1,18 @@
+ $(document).ready(function () {
+    $(".close-pop-cus").click(function () {
+                // Perform an AJAX request to reload the content
+                $.ajax({
+                        url: window.location.href, // Reload the current page
+                        type: 'GET',
+                        success: function (response) {
+                                // Replace the current page's content with the updated content
+                                $('body').html(response);
+                                // alert('Page Reloaded via AJAX');
+                        },
+                        error: function () {
+                                // alert('Failed to reload the page via AJAX');
+                        }
+                });
+        });
+});
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js&quot;></script>
