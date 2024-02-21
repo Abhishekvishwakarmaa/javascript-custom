@@ -1,0 +1,20 @@
+<script>
+
+    document.addEventListener("DOMContentLoaded", function() {
+     var boxes = document.getElementsByClassName("card__information");
+ 
+     for (var i = 0; i < boxes.length; i++) {
+       var box = boxes[i];
+       var content = box.innerHTML;
+ 
+       // Replace the word "HERs" with colored version
+       content = content.replace(/HERs/g, '<span style="color: #D092A7;">HERs</span>');
+ 
+       // Replace the word "example" with colored version
+       content = content.replace(/HIS/g, '<span style="color: #577DA4;">HIS</span>');
+ 
+       // Update the content of the box
+       box.innerHTML = content;
+     }
+   });
+ </script>
