@@ -1,0 +1,39 @@
+{{ 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.css' | stylesheet_tag }}
+  {{ 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick-theme.min.css' | stylesheet_tag }}
+  {{ 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js' | script_tag }}
+  {{ 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js' | script_tag }}
+
+
+            $(document).ready(function() {
+    $('.team-slider').slick({
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        arrows:false,
+        dots: true,
+        speed: 500,
+        infinite: true,
+        autoplaySpeed: 1000,
+        autoplay:false,
+        responsive: [{
+            breakpoint: 991,
+            settings: {
+                slidesToShow: 3,
+            }
+        }, {
+            breakpoint: 769,
+            settings: {
+                slidesToShow: 2,
+            }
+        },{
+            breakpoint: 480,
+            settings: {
+                slidesToShow: 2,
+            }
+        },{
+            breakpoint: 390,
+            settings: {
+                slidesToShow: 1,
+            } 
+        }]
+    });
+});  
